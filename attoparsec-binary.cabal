@@ -1,9 +1,11 @@
 Name: attoparsec-binary
 Version: 0.1
 Author: Andrew Drake
+Copyright: (c) 2011 Andrew Drake
 Maintainer: adrake@adrake.org
 Version: 0.1
 Synopsis: Binary processing extensions to Attoparsec.
+Stability: unstable
 
 License: BSD3
 License-file: LICENSE
@@ -24,5 +26,8 @@ Source-Repository head
 
 Library
   Exposed-modules: Data.Attoparsec.Binary
-  Build-depends: attoparsec, base >= 4 && < 5, bytestring
+  Build-depends:
+    attoparsec >= 0.8.5.0,
+    base >= 3 && < 5,
+    bytestring >= 0.9.1.10
   GHC-Options: -Wall
