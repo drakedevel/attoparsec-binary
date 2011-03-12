@@ -24,5 +24,5 @@ Source-Repository head
 
 Library
   Exposed-modules: Data.Attoparsec.Binary
-  Build-depends: attoparsec, base == 4, bytestring
+  Build-depends: attoparsec, base >= 4 && < 5, bytestring
   GHC-Options: -Wall
