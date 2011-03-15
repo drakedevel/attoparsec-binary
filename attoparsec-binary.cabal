@@ -3,7 +3,7 @@ Version: 0.1
 Author: Andrew Drake
 Copyright: (c) 2011 Andrew Drake
 Maintainer: adrake@adrake.org
-Version: 0.1
+Version: 0.1.1
 Synopsis: Binary processing extensions to Attoparsec.
 Stability: unstable
 

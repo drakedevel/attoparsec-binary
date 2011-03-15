@@ -1,18 +1,19 @@
 -- |Binary processing extensions to Attoparsec.
-module Data.Attoparsec.Binary(
-  anyWord16be,
-  anyWord16le,
-  anyWord32be,
-  anyWord32le,
-  anyWord64be,
-  anyWord64le,
-  word16be,
-  word16le,
-  word32be,
-  word32le,
-  word64be,
-  word64le
-  ) where
+module Data.Attoparsec.Binary
+       (
+         anyWord16be
+       , anyWord16le
+       , anyWord32be
+       , anyWord32le
+       , anyWord64be
+       , anyWord64le
+       , word16be
+       , word16le
+       , word32be
+       , word32le
+       , word64be
+       , word64le
+       ) where
 
 import Data.Attoparsec
 import Data.Bits
@@ -55,7 +56,8 @@ anyWord64le :: Parser Word64
 anyWord64le = anyWordN $ pack . B.reverse
 
 unpack :: (Bits a, Integral a) => a -> B.ByteString
-unpack x = B.pack $ map (fromIntegral . shiftR x . (8 *)) $ reverse [0..byteSize x - 1]
+unpack x = B.pack $ map f $ reverse [0..byteSize x - 1]
+  where f s = fromIntegral $ shiftR x (8 * s)
 
 wordN :: (Bits a) => (a -> B.ByteString) -> a -> Parser a
 wordN u w = string (u w) >> return w
