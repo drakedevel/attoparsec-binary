@@ -1,9 +1,8 @@
 Name: attoparsec-binary
-Version: 0.1
+Version: 0.1.0.1
 Author: Andrew Drake
 Copyright: (c) 2011 Andrew Drake
 Maintainer: adrake@adrake.org
-Version: 0.1.1
 Synopsis: Binary processing extensions to Attoparsec.
 Stability: unstable
 
@@ -22,7 +21,7 @@ Cabal-version: >=1.6
 
 Source-Repository head
   Type: git
-  Location: git://github.com/drakedevel/attoparsec-binary.git
+  Location: http://git.hax.so/pub/scm/attoparsec-binary.git
 
 Library
   Exposed-modules: Data.Attoparsec.Binary
