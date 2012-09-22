@@ -1,7 +1,7 @@
 Name: attoparsec-binary
-Version: 0.1.0.1
+Version: 0.2
 Author: Andrew Drake
-Copyright: (c) 2011 Andrew Drake
+Copyright: (c) 2012 Andrew Drake
 Maintainer: adrake@adrake.org
 Synopsis: Binary processing extensions to Attoparsec.
 Stability: unstable
