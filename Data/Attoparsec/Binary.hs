@@ -23,7 +23,7 @@ import Data.Word
 byteSize :: (Bits a) => a -> Int
 byteSize = (`div` 8) . bitSize
 
-pack :: (Bits a) => B.ByteString -> a
+pack :: (Bits a, Num a) => B.ByteString -> a
 pack = B.foldl' (\n h -> (n `shiftL` 8) .|. fromIntegral h) 0
 
 anyWordN :: (Bits a) => (B.ByteString -> a) -> Parser a
