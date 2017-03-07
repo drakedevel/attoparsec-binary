@@ -15,21 +15,21 @@ module Data.Attoparsec.Binary
        , word64le
        ) where
 
-import Data.Attoparsec
+import Data.Attoparsec.ByteString
 import Data.Bits
 import qualified Data.ByteString as B
 import Data.Word
 
-byteSize :: (Bits a) => a -> Int
-byteSize = (`div` 8) . bitSize
+byteSize :: (FiniteBits a) => a -> Int
+byteSize = (`div` 8) . finiteBitSize
 
 pack :: (Bits a, Num a) => B.ByteString -> a
 pack = B.foldl' (\n h -> (n `shiftL` 8) .|. fromIntegral h) 0
 
-anyWordN :: (Bits a) => (B.ByteString -> a) -> Parser a
+anyWordN :: (FiniteBits a) => (B.ByteString -> a) -> Parser a
 anyWordN = anyWordN' undefined
-  where anyWordN' :: (Bits a) => a -> (B.ByteString -> a) -> Parser a
-        anyWordN' d = flip fmap $ Data.Attoparsec.take $ byteSize d
+  where anyWordN' :: (FiniteBits a) => a -> (B.ByteString -> a) -> Parser a
+        anyWordN' d = flip fmap $ Data.Attoparsec.ByteString.take $ byteSize d
 
 -- |Match any 16-bit big-endian word.
 anyWord16be :: Parser Word16
@@ -55,7 +55,7 @@ anyWord64be = anyWordN pack
 anyWord64le :: Parser Word64
 anyWord64le = anyWordN $ pack . B.reverse
 
-unpack :: (Bits a, Integral a) => a -> B.ByteString
+unpack :: (FiniteBits a, Integral a) => a -> B.ByteString
 unpack x = B.pack $ map f $ reverse [0..byteSize x - 1]
   where f s = fromIntegral $ shiftR x (8 * s)
 
