@@ -59,7 +59,7 @@ unpack :: (FiniteBits a, Integral a) => a -> B.ByteString
 unpack x = B.pack $ map f $ reverse [0..byteSize x - 1]
   where f s = fromIntegral $ shiftR x (8 * s)
 
-wordN :: (Bits a) => (a -> B.ByteString) -> a -> Parser a
+wordN :: (a -> B.ByteString) -> a -> Parser a
 wordN u w = string (u w) >> return w
 
 -- |Match a specific 16-bit big-endian word.
