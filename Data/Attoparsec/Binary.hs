@@ -1,12 +1,16 @@
 -- |Binary processing extensions to Attoparsec.
 module Data.Attoparsec.Binary
        (
-         anyWord16be
+         anyWordNbe
+       , anyWordNle
+       , anyWord16be
        , anyWord16le
        , anyWord32be
        , anyWord32le
        , anyWord64be
        , anyWord64le
+       , wordNbe
+       , wordNle
        , word16be
        , word16le
        , word32be
@@ -31,9 +35,11 @@ anyWordN = anyWordN' undefined
   where anyWordN' :: (FiniteBits a) => a -> (B.ByteString -> a) -> Parser a
         anyWordN' d = flip fmap $ Data.Attoparsec.ByteString.take $ byteSize d
 
+-- |Match any big-endian word.
 anyWordNbe :: (FiniteBits a, Num a) => Parser a
 anyWordNbe = anyWordN pack
 
+-- |Match any little-endian word.
 anyWordNle :: (FiniteBits a, Num a) => Parser a
 anyWordNle = anyWordN $ pack . B.reverse
 
@@ -68,9 +74,11 @@ unpack x = B.pack $ map f $ reverse [0..byteSize x - 1]
 wordN :: (a -> B.ByteString) -> a -> Parser a
 wordN u w = string (u w) >> return w
 
+-- |Match a specific big-endian word.
 wordNbe :: (FiniteBits a, Integral a) => a -> Parser a
 wordNbe = wordN unpack
 
+-- |Match a specific little-endian word.
 wordNle :: (FiniteBits a, Integral a) => a -> Parser a
 wordNle = wordN $ B.reverse . unpack
 
