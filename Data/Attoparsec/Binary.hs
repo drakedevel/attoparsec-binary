@@ -33,7 +33,7 @@ pack = B.foldl' (\n h -> (n `shiftL` 8) .|. fromIntegral h) 0
 anyWordN :: (FiniteBits a) => (B.ByteString -> a) -> Parser a
 anyWordN = anyWordN' undefined
   where anyWordN' :: (FiniteBits a) => a -> (B.ByteString -> a) -> Parser a
-        anyWordN' d = flip fmap $ Data.Attoparsec.ByteString.take $ byteSize d
+        anyWordN' = flip fmap . Data.Attoparsec.ByteString.take . byteSize
 
 -- |Match any big-endian word.
 anyWordNbe :: (FiniteBits a, Num a) => Parser a
@@ -68,19 +68,20 @@ anyWord64le :: Parser Word64
 anyWord64le = anyWordNle
 
 unpack :: (FiniteBits a, Integral a) => a -> B.ByteString
-unpack x = B.pack $ map f $ reverse [0..byteSize x - 1]
-  where f s = fromIntegral $ shiftR x (8 * s)
+unpack x = B.pack $ map takeByte [0, 8 .. finiteBitSize x - 1]
+  where takeByte :: (Num a) => Int -> a
+        takeByte = fromIntegral . shiftR x
 
 wordN :: (a -> B.ByteString) -> a -> Parser a
 wordN u w = string (u w) >> return w
 
 -- |Match a specific big-endian word.
 wordNbe :: (FiniteBits a, Integral a) => a -> Parser a
-wordNbe = wordN unpack
+wordNbe = wordN $ B.reverse . unpack
 
 -- |Match a specific little-endian word.
 wordNle :: (FiniteBits a, Integral a) => a -> Parser a
-wordNle = wordN $ B.reverse . unpack
+wordNle = wordN unpack
 
 -- |Match a specific 16-bit big-endian word.
 word16be :: Word16 -> Parser Word16
