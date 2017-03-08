@@ -26,7 +26,7 @@ Source-Repository head
 Library
   Exposed-modules: Data.Attoparsec.Binary
   Build-depends:
-    attoparsec >= 0.10.0.0,
-    base >= 3 && < 5,
+    attoparsec >= 0.10,
+    base >= 4.7 && < 5,
     bytestring >= 0.9.1.10
   GHC-Options: -Wall
